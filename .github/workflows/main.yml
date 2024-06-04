@@ -36,6 +36,7 @@ jobs:
       run: |
         git config --global user.name "${{ secrets.USERNAME }}"
         git config --global user.email "${{ secrets.EMAIL }}"
+        git config advice.addIgnoredFile false
         git add ./dist
         git commit -m 'added : build artifacts'
         git push origin HEAD
