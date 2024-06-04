@@ -76,8 +76,12 @@ jobs:
 
   cleanup:
     if: ${{ always() }}
+    needs: [auto_approve_and_merge, build]
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
     - name: Delete Build Artifacts Branch
       env:
         GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
