@@ -39,6 +39,7 @@ jobs:
         git config --global user.name "TrippyRahul"
         git config --global user.email "rahulrawat.trippybug@gmail.com"
         git checkout -b build-artifacts
+        git add -f ./dist
         git commit -m 'added: build artifacts'
         git push --set-upstream origin build-artifacts
 
