@@ -43,7 +43,7 @@ jobs:
         git config --global user.email "rahulrawat.trippybug@gmail.com"
         git add -f ./dist
         git commit -m 'added: build artifacts'
-        git push origin HEAD
+  
 
   create_pull_request:
     needs: build
