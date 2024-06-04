@@ -15,13 +15,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Remove .gitignore
-      run: rm .gitignore
-
     - uses: actions/checkout@v4
       with:
         ref: dev
-
+        
+    - name: Remove .gitignore
+      run: rm .gitignore
+      
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
