@@ -1,4 +1,4 @@
-name: Build and Deploy
+20name: Build and Deploy
 
 on:
   push:
@@ -22,8 +22,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        check-latest: true
-        node-version: '14'
+        node-version: '20'
 
     - name: Install Dependencies
       run: npm install
