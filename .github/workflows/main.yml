@@ -3,10 +3,12 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - "**" 
+      - "**"
   workflow_dispatch:
+
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   build:
@@ -18,7 +20,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        check-lastest : true
+        check-latest: true
         node-version: '14'
 
     - name: Install Dependencies
@@ -32,7 +34,7 @@ jobs:
       with:
         name: dist
         path: ./dist
-        
+
     - name: Commit and Push Build Artifacts
       env:
         GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
@@ -40,5 +42,29 @@ jobs:
         git config --global user.name "TrippyRahul"
         git config --global user.email "rahulrawat.trippybug@gmail.com"
         git add -f ./dist
-        git commit -m 'added : build artifacts'
-        git push --force origin HEAD
+        git commit -m 'added: build artifacts'
+        git push origin HEAD
+
+  create_pull_request:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.G_TOKEN }}
+        commit-message: 'added: build artifacts'
+        branch: build-artifacts
+        title: 'Add build artifacts'
+        body: 'This pull request contains the build artifacts.'
+        labels: 'auto-approve'
+
+  auto_approve:
+    needs: create_pull_request
+    runs-on: ubuntu-latest
+    steps:
+    - name: Auto Approve Pull Request
+      uses: hmarr/auto-approve-action@v3
+      with:
+        github-token: ${{ secrets.G_TOKEN }}
+        pull-request-number: ${{ steps.create_pull_request.outputs.pull-request-number }}
