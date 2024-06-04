@@ -10,11 +10,6 @@ export interface SymbolData {
   freespins: number;
 }
 
-export enum messageId {
-  auth = "Auth",
-  spin = "Spin",
-}
-
 export enum specialIcons {
   bonus = "Bonus",
   scatter = "Scatter",

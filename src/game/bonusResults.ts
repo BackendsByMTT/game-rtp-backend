@@ -76,6 +76,7 @@ export class bonusGame {
           amount += element;
         }
       });
+      
     }
 
     if (!amount || amount < 0) amount = 0;

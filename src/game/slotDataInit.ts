@@ -95,6 +95,7 @@ function gameDataInit() {
   // gameSettings.bonus.start = false;
   makeFullPayTable();
 }
+
 function makeFullPayTable() {
   let payTable: PayLines[] = [];
   let payTableFull = [];
@@ -110,8 +111,11 @@ function makeFullPayTable() {
     );
   });
 
+  // console.log("payTable : ", payTable);
+
   for (let j = 0; j < payTable.length; j++) {
     payTableFull.push(payTable[j]);
+    // console.log("payTable[j] :", payTable[j]);
 
     if (gameSettings.useWild) {
       let wildLines = payTable[j].getWildLines();
@@ -120,6 +124,7 @@ function makeFullPayTable() {
       });
     }
   }
+
   gameSettings.fullPayTable = payTableFull;
   // let payTable: any[] = [];
   // let payTableFull = [];

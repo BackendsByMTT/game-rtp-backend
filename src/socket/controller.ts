@@ -1,9 +1,11 @@
-import { v4 as uuidv4 } from "uuid";
-import { clients } from "../utils/utils";
-
-import { User, initializeUser } from "../user/user";
+import { initializeUser } from "../user/user";
 
 const socketController = (io) => {
+  io.use((socket, next) => {
+    console.log("I'm Socket middleware");
+    next();
+  });
+
   io.on("connection", (socket) => {
     io.emit("newConnectionAlert", "A new user has connected!");
     initializeUser(socket);

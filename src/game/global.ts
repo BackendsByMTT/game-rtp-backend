@@ -9,10 +9,6 @@ import {
   winning,
 } from "./gameUtils";
 import { getClient } from "../user/user";
-// import { gameEmiter } from "../utils/gameEmmiter";
-//TODO : Need to work here
-// import { sendMessageToClient } from "./App";
-// import { Alerts } from "./Alerts";
 
 export const gameSettings: GameSettings = {
   currentGamedata: {
@@ -80,7 +76,6 @@ export const gameSettings: GameSettings = {
       // const currentGameData=gameData.filter((element)=>element.id==GameID)
     } catch (error) {
       getClient(clientID).sendError("404", "NETWORK ERROR");
-
       return;
     }
 
@@ -152,6 +147,7 @@ export function addPayLineSymbols(
     pay: pay,
     freeSpins: freeSpins,
   });
+  
 }
 
 export function makePayLines() {
