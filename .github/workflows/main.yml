@@ -73,3 +73,17 @@ jobs:
         merge_method: squash
         approve: true
         branch: build-artifacts
+
+  cleanup:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    needs: [auto_approve_and_merge, build]
+    steps:
+    - name: Delete Build Artifacts Branch
+      env:
+        GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
+      run: |
+        git config --global user.name "TrippyRahul"
+        git config --global user.email "rahulrawat.trippybug@gmail.com"
+        git remote set-url origin https://x-access-token:${{ secrets.G_TOKEN }}@github.com/${{ github.repository }}
+        git push origin --delete build-artifacts
