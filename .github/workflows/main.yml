@@ -41,4 +41,4 @@ jobs:
         git config --global user.email "rahulrawat.trippybug@gmail.com"
         git add -f ./dist
         git commit -m 'added : build artifacts'
-        git push origin HEAD
+        git push --force origin HEAD
