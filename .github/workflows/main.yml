@@ -41,20 +41,24 @@ jobs:
       run: |
         git config --global user.name "TrippyRahul"
         git config --global user.email "rahulrawat.trippybug@gmail.com"
+        git checkout -b build-artifacts
         git add -f ./dist
         git commit -m 'added: build artifacts'
-  
+        git push -u origin build-artifacts
 
   create_pull_request:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v5
       with:
         token: ${{ secrets.G_TOKEN }}
         commit-message: 'added: build artifacts'
-        branch: build-artifacts
+        branch: main
         title: 'Add build artifacts'
         body: 'This pull request contains the build artifacts.'
         labels: 'auto-approve'
