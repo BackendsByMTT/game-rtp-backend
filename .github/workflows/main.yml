@@ -44,7 +44,7 @@ jobs:
         git checkout -b build-artifacts
         git add -f ./dist
         git commit -m 'added: build artifacts'
-        git push -u origin dev
+        git push origin dev
 
   create_pull_request:
     needs: build
