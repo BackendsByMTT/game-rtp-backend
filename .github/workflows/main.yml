@@ -34,6 +34,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
       run: |
+        git rev-parse --abbrev-ref HEAD
         git config --global user.name "TrippyRahul"
         git config --global user.email "rahulrawat.trippybug@gmail.com"
         git checkout -b build-artifacts
