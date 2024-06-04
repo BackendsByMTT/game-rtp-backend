@@ -36,7 +36,6 @@ jobs:
         git config --global user.name "TrippyRahul"
         git config --global user.email "rahulrawat.trippybug@gmail.com"
         git checkout -b build-artifacts
-        git stash
         git add -f ./dist
         git commit -m 'added: build artifacts'
         git push --set-upstream origin build-artifacts
@@ -62,12 +61,15 @@ jobs:
         body: 'This pull request contains the build artifacts.'
         labels: 'auto-approve'
 
-  auto_approve:
+  auto_approve_and_merge:
     needs: create_pull_request
     runs-on: ubuntu-latest
     steps:
-    - name: Auto Approve Pull Request
-      uses: hmarr/auto-approve-action@v3
+    - name: Auto Approve and Merge Pull Request
+      uses: pascalgn/automerge-action@v0.14.3
+      env:
+        GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
       with:
-        github-token: ${{ secrets.G_TOKEN }}
-        pull-request-number: ${{ needs.create_pull_request.outputs.pull_request_number }}
+        merge_method: squash
+        approve: true
+        branch: build-artifacts
