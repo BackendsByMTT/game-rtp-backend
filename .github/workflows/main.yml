@@ -39,8 +39,8 @@ jobs:
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: build-artifacts
-        path: ./dist
+        name: build
+        path: ./Build
 
     - name: Commit and Push Build Artifacts
       env:
@@ -51,7 +51,7 @@ jobs:
         git config --global user.name "TrippyRahul"
         git config --global user.email "rahulrawat.trippybug@gmail.com"
         git checkout -b build-artifacts
-        git add -f ./dist
+        git add -f ./Build
         git commit -m 'added: build artifacts'
         git push --set-upstream origin build-artifacts
 
@@ -67,7 +67,7 @@ jobs:
     - name: Download Build Artifacts
       uses: actions/download-artifact@v3
       with:
-        name: build-artifacts
+        name: build
 
     - name: Create Pull Request
       id: create_pr
