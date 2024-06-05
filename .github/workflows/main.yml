@@ -61,7 +61,7 @@ jobs:
     - name: Download Build Artifacts
       uses: actions/download-artifact@v3
       with:
-        name: build
+        name: artifact
         
     - name: List Downloaded Artifacts
       run: ls -l
