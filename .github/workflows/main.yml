@@ -95,7 +95,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
       with:
-        merge_method: squash
+        merge_method: merge
         approve: true
         branch: build-artifacts
         pull_number: ${{ steps.create_pr.outputs.pull_request_number }}
