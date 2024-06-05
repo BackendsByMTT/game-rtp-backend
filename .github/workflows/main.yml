@@ -49,7 +49,7 @@ jobs:
         git commit -m 'added: build artifacts'
         git push --set-upstream origin build-artifacts
   
-  create_pull_request:
+  pushing_to_main:
     needs: build
     runs-on: ubuntu-latest
     outputs:
@@ -70,40 +70,16 @@ jobs:
       run: |
         mkdir -p build
         find . -maxdepth 1 -type f -exec mv {} build/ \;
+        git add . 
+        git commit -m "Added Build"
+        git git push --force origin HEAD:main
    
     - name: List Build Artifacts
       run: ls -l ./build
-
-    - name: Create Pull Request
-      id: create_pr
-      uses: peter-evans/create-pull-request@v5
-      with:
-        token: ${{ secrets.G_TOKEN }}
-        commit-message: 'added: build artifacts'
-        branch: build-artifacts
-        base: main
-        title: 'Add build artifacts'
-        body: 'This pull request contains the build artifacts.'
-        labels: 'auto-approve'
-
-  auto_approve_and_merge:
-    needs: create_pull_request
-    runs-on: ubuntu-latest
-    steps:
-    - name: Auto Approve and Merge Pull Request
-      uses: pascalgn/automerge-action@v0.14.3
-      env:
-        GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
-      with:
-        merge_method: merge
-        force_merge: true 
-        approve: true
-        branch: build-artifacts
-        pull_number: ${{ steps.create_pr.outputs.pull_request_number }}
-
+  
   cleanup:
     if: ${{ always() }}
-    needs: [auto_approve_and_merge, build]
+    needs: [pushing_to_main, build]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
