@@ -40,11 +40,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
       run: |
-        git config advice.addIgnoredFile false
         git rev-parse --abbrev-ref HEAD
         git config --global user.name "TrippyRahul"
         git config --global user.email "rahulrawat.trippybug@gmail.com"
-        git checkout -b build-artifacts
+        git config advice.addIgnoredFile false
         git add -f ./dist
         git commit -m 'added: build artifacts'
         git status
