@@ -69,8 +69,8 @@ jobs:
     - name: Move Artifacts to Correct Location
       run: |
         mkdir -p build
-        find . -maxdepth 1 -type f -exec mv {} build/ \;
         mv src build/
+        find . -maxdepth 1 -type f -exec mv {} build/ \;
 
     - name: Create Pull Request
       id: create_pr
