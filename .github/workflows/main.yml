@@ -19,9 +19,6 @@ jobs:
       with:
         ref: dev
         
-    - name: Remove .gitignore
-      run: rm .gitignore
-      
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
@@ -32,9 +29,6 @@ jobs:
 
     - name: Build
       run: npm run build
-
-    - name: Restore .gitignore
-      run: git checkout .gitignore
 
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v3
@@ -51,7 +45,6 @@ jobs:
         git config --global user.name "TrippyRahul"
         git config --global user.email "rahulrawat.trippybug@gmail.com"
         git checkout -b build-artifacts
-        git add -f ./Build
         git commit -m 'added: build artifacts'
         git push --set-upstream origin build-artifacts
 
