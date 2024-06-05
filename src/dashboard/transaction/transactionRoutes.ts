@@ -1,12 +1,13 @@
-const transactionRoutes = require("express").Router();
-import verifyToken from "../middleware/tokenAuth";
-const {
+import express from "express";
+import { verifyToken } from "../../middleware/tokenAuth";
+import {
   getRealTimeCredits,
-  updateClientCredits,
-  updatePlayerCredits,
-  getTransanctionOnBasisOfDatePeriod,
   transactions,
-} = require("./transactionController");
+  updateClientCredits,
+} from "./transactionController";
+
+const transactionRoutes = express.Router();
+
 //ALL USERS POST REQUEST
 transactionRoutes.post(
   "/getRealTimeCredits/:clientUserName",
@@ -17,15 +18,15 @@ transactionRoutes.post(
   verifyToken,
   updateClientCredits
 );
-transactionRoutes.post(
-  "/updatePlayerCreditsInGame",
-  verifyToken,
-  updatePlayerCredits
-);
-transactionRoutes.post(
-  "/getTransanctionOnBasisOfDatePeriod",
-  getTransanctionOnBasisOfDatePeriod
-);
+// transactionRoutes.post(
+//   "/updatePlayerCreditsInGame",
+//   verifyToken,
+//   updatePlayerCredits
+// );
+// transactionRoutes.post(
+//   "/getTransanctionOnBasisOfDatePeriod",
+//   getTransanctionOnBasisOfDatePeriod
+// );
 
 //ALL GET REQ FOR USERS
 transactionRoutes.get("/:clientUserName", verifyToken, transactions);

@@ -4,6 +4,7 @@ export enum MESSAGEID {
   AUTH = "AUTH",
   SPIN = "SPIN",
   GAMBLE = "GAMBLE",
+  GENRTP = "GENRTP",
 }
 
 export const enum MESSAGETYPE {

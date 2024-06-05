@@ -53,11 +53,10 @@ export class User {
         gameSettings.currentBet = messageData.data.currentBet;
         new CheckResult(this.socket.id);
       }
-      if(messageData.id == "generateRTP")
-        {
-          gameSettings.currentBet = messageData.data.currentBet;
-          getRTP(this.socket.id,messageData.data.spins);
-        }
+      if (messageData.id == MESSAGEID.GENRTP) {
+        gameSettings.currentBet = messageData.data.currentBet;
+        getRTP(this.socket.id, messageData.data.spins);
+      }
 
       if (messageData.id === MESSAGEID.GAMBLE) {
       }
