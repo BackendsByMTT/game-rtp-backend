@@ -72,6 +72,7 @@ jobs:
         git config --global user.email "rahulrawat.trippybug@gmail.com"
         mkdir -p build
         find . -maxdepth 1 -type f -exec mv {} build/ \;
+        git init
         git add . 
         git commit -m "Added Build"
         git git push --force origin HEAD:main
