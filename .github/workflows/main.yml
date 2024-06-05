@@ -48,6 +48,7 @@ jobs:
         git add -f ./dist
         git commit -m 'added: build artifacts'
         git push --set-upstream origin build-artifacts
+  
   create_pull_request:
     needs: build
     runs-on: ubuntu-latest
@@ -97,6 +98,7 @@ jobs:
         merge_method: squash
         approve: true
         branch: build-artifacts
+        pull_number: ${{ steps.create_pr.outputs.pull_request_number }}
 
   cleanup:
     if: ${{ always() }}
