@@ -45,7 +45,6 @@ jobs:
         git config --global user.name "TrippyRahul"
         git config --global user.email "rahulrawat.trippybug@gmail.com"
         git pull origin main
-        git push origin HEAD:main
         git add -f ./dist
         git commit -m "Build"
         git push origin HEAD:main
