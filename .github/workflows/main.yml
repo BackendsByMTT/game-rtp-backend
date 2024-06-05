@@ -84,22 +84,9 @@ jobs:
         body: 'This pull request contains the build artifacts.'
         labels: 'auto-approve'
 
-  auto_approve_and_merge:
-    needs: create_pull_request
-    runs-on: ubuntu-latest
-    steps:
-    - name: Auto Approve and Merge Pull Request
-      uses: pascalgn/automerge-action@v0.14.3
-      env:
-        GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
-      with:
-        merge_method: squash
-        approve: true
-        branch: build-artifacts
-
   cleanup:
     if: ${{ always() }}
-    needs: [auto_approve_and_merge, build]
+    needs: [create_pull_request, build]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
