@@ -35,7 +35,13 @@ jobs:
 
     - name: Restore .gitignore
       run: git checkout .gitignore
-      
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: ./dist
+
     - name: Commit and Push Build Artifacts
       env:
         GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
@@ -57,6 +63,11 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
+
+    - name: Download Build Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: build-artifacts
 
     - name: Create Pull Request
       id: create_pr
