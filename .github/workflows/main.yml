@@ -45,7 +45,7 @@ jobs:
         git config --global user.name "TrippyRahul"
         git config --global user.email "rahulrawat.trippybug@gmail.com"
         git checkout -b build-artifacts
-        git add .
+        git add -f ./dist
         git commit -m 'added: build artifacts'
         git push --set-upstream origin build-artifacts
 
@@ -62,6 +62,11 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: build
+
+    - name: Move Artifacts to Correct Location
+      run: |
+        mkdir -p build
+        mv dist/* build/
 
     - name: Create Pull Request
       id: create_pr
