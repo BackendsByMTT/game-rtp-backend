@@ -1,12 +1,11 @@
-const jwt = require("jsonwebtoken");
+import { NextFunction, Request, Response } from "express";
+import jwt from "jsonwebtoken";
 
-const verifyToken = (req, res, next) => {
-  const cookie =
-    req.cookies.userToken ||
-    req.headers.cookie
-      ?.split("; ")
-      .find((row) => row.startsWith("userToken="))
-      ?.split("=")[1];
+export const verifyAuth = (req: Request, res: Response, next: NextFunction) => {
+  const cookie = req.headers.cookie
+    ?.split("; ")
+    .find((row) => row.startsWith("userToken="))
+    ?.split("=")[1];
 
   if (cookie) {
     jwt.verify(cookie, process.env.JWT_SECRET, (err, decoded) => {
@@ -21,12 +20,6 @@ const verifyToken = (req, res, next) => {
           return res.status(401).json({ error: "You are not authenticated" });
         }
       } else {
-        req.body = {
-          ...req.body,
-          creatorDesignation: decoded.designation,
-          username: decoded.username,
-        };
-
         next();
       }
     });
@@ -34,5 +27,3 @@ const verifyToken = (req, res, next) => {
     return res.status(401).json({ error: "You are not authenticated" });
   }
 };
-
-export default verifyToken;
