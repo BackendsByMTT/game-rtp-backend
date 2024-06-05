@@ -49,7 +49,7 @@ jobs:
         git commit -m 'added: build artifacts'
         git push --set-upstream origin build-artifacts
   
-  pushing_to_main:
+  create_pull_request:
     needs: build
     runs-on: ubuntu-latest
     outputs:
@@ -68,20 +68,41 @@ jobs:
     
     - name: Move Artifacts to Correct Location
       run: |
-        git config --global user.name "TrippyRahul"
-        git config --global user.email "rahulrawat.trippybug@gmail.com"
         mkdir -p build
         find . -maxdepth 1 -type f -exec mv {} build/ \;
-        git add . 
-        git commit -m "Added Build"
-        git push --force origin HEAD:main
    
     - name: List Build Artifacts
       run: ls -l ./build
-  
+
+    - name: Create Pull Request
+      id: create_pr
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.G_TOKEN }}
+        commit-message: 'added: build artifacts'
+        branch: build-artifacts
+        base: main
+        title: 'Add build artifacts'
+        body: 'This pull request contains the build artifacts.'
+        labels: 'auto-approve'
+
+  merge_pull_request:
+    needs: create_pull_request
+    runs-on: ubuntu-latest
+    steps:
+    - name: Merge Pull Request
+      uses: pascalgn/github-action@master
+      with:
+        github-token: ${{ secrets.G_TOKEN }}
+        args: |
+          git checkout main
+          git pull
+          git merge --no-ff --no-edit build-artifacts
+          git push origin main
+
   cleanup:
     if: ${{ always() }}
-    needs: [pushing_to_main, build]
+    needs: [merge_pull_request, build]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
