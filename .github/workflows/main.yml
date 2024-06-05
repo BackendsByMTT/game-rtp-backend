@@ -44,7 +44,7 @@ jobs:
         git rev-parse --abbrev-ref HEAD
         git config --global user.name "TrippyRahul"
         git config --global user.email "rahulrawat.trippybug@gmail.com"
-        git pull origin main
+        git pull main
         git add -f ./dist
         git commit -m "Build"
-        git push origin HEAD:main
+        git push main
