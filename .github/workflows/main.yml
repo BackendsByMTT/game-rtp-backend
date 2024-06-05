@@ -33,7 +33,7 @@ jobs:
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: build
+        name: artifact
         path: ./dist/**
 
     - name: Commit and Push Build Artifacts
