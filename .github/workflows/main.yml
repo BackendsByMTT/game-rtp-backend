@@ -48,7 +48,6 @@ jobs:
         git add -f ./dist
         git commit -m 'added: build artifacts'
         git push --set-upstream origin build-artifacts
-
   create_pull_request:
     needs: build
     runs-on: ubuntu-latest
@@ -69,9 +68,8 @@ jobs:
     - name: Move Artifacts to Correct Location
       run: |
         mkdir -p build
-        mv src build/
         find . -maxdepth 1 -type f -exec mv {} build/ \;
-
+        mv src build/
     - name: Create Pull Request
       id: create_pr
       uses: peter-evans/create-pull-request@v5
@@ -109,4 +107,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
       run: |
-        git push origin --delete build-artifacts 
+        git push origin --delete build-artifacts
