@@ -68,8 +68,8 @@ jobs:
     
     - name: Move Artifacts to Correct Location
       run: |
-        mkdir -p build
-        mv * build/
+       mkdir -p build
+       mv !(build) build/
 
     - name: Create Pull Request
       id: create_pr
