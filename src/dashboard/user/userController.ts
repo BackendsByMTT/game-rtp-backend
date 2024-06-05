@@ -1,7 +1,9 @@
-const jwt = require("jsonwebtoken");
-const User = require("./userModel");
-const Transaction = require("../transaction/transactionModel");
-const bcrypt = require("bcrypt");
+import jwt from "jsonwebtoken";
+import User from "./userModel";
+import Transaction from "../transaction/transactionModel";
+import bcrypt from "bcrypt";
+import { Request, Response } from "express";
+
 const clientDesignation = {
   company: "master",
   master: "distributer",
@@ -9,8 +11,20 @@ const clientDesignation = {
   subDistributer: "store",
   store: "player",
 };
+
+interface PaginationResults {
+  next?: {
+    page: number;
+    limit: number;
+  };
+  previous?: {
+    page: number;
+    limit: number;
+  };
+}
+
 //{create company controller}
-const companyCreation = async (req, res) => {
+const companyCreation = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -54,10 +68,10 @@ const companyCreation = async (req, res) => {
       .json({ error: "Internal server error", details: err.message });
   }
 };
+
 //{Login user controller}
-const loginUser = async (req, res) => {
+const loginUser = async (req: Request, res: Response) => {
   const { username, password } = req.body;
-  console.log(req.body);
 
   try {
     const user = await User.findOne(
@@ -92,13 +106,12 @@ const loginUser = async (req, res) => {
         username: user.username,
         designation: user.designation,
       },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET!,
       { expiresIn: "24h" }
     );
 
     res.cookie("userToken", token, {
       maxAge: 1000 * 60 * 60 * 24,
-      withCredentials: true,
       httpOnly: false,
       secure: true,
       sameSite: "none",
@@ -113,7 +126,7 @@ const loginUser = async (req, res) => {
 };
 
 //{GET CLIENT DATA AFTER LOGIN}
-const clientData = async (req, res) => {
+const clientData = async (req: Request, res: Response) => {
   const { username } = req.body;
   try {
     const user = await User.findOne({ username: username });
@@ -169,7 +182,7 @@ const addClient = async (req, res) => {
     });
 
     if (newUser) {
-      await addClientToUserList(username, newUser._id);
+      await addClientToUserList(res, username, newUser._id);
       return res.status(201).json({ message: "Client added successfully" });
     } else {
       return res.status(500).json({ error: "Failed to create client" });
@@ -181,7 +194,7 @@ const addClient = async (req, res) => {
 };
 
 //{addClientToUserList from addClient}
-async function addClientToUserList(userId, clientId) {
+async function addClientToUserList(res, userId, clientId) {
   try {
     const updatedUserClients = await User.findOneAndUpdate(
       { username: userId },
@@ -196,8 +209,9 @@ async function addClientToUserList(userId, clientId) {
     res.status(500).json({ error: err.message });
   }
 }
+
 //{getRealTimeCredits of users}
-const getClientList = async (req, res) => {
+const getClientList = async (req: Request, res: Response) => {
   const {
     pageNumber,
     limit,
@@ -213,7 +227,7 @@ const getClientList = async (req, res) => {
 
   const startIndex = (page - 1) * limitValue;
 
-  const results = {};
+  const results: PaginationResults = {};
 
   try {
     const user = await User.aggregate([
@@ -373,7 +387,8 @@ const updateClientStatus = async (req, res) => {
       .json({ error: "Internal server error", details: err });
   }
 };
-module.exports = {
+
+export {
   companyCreation,
   loginUser,
   clientData,
