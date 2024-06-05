@@ -62,7 +62,10 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: build
-
+        
+    - name: List Downloaded Artifacts
+      run: ls -l
+    
     - name: Move Artifacts to Correct Location
       run: |
         mkdir -p build
