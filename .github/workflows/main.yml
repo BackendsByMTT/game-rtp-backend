@@ -34,7 +34,10 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: artifact
-        path: ./dist/**/*.js
+        path:  
+          ./dist/**/*.js
+          ./package.json
+          ./package-lock.json
 
     - name: Commit and Push Build Artifacts
       env:
