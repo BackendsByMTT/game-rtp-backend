@@ -329,6 +329,7 @@ const updateClientPassword = async (req, res) => {
     });
   }
 };
+
 const updateClientStatus = async (req, res) => {
   try {
     const { clientUserName } = req.params;

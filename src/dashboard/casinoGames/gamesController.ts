@@ -1,10 +1,8 @@
-import exp from "constants";
 import Game from "./gamesModel";
 import { NextFunction, Request, Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
 import { config } from "../../config/config";
 import User from "../user/userModel";
-import mongoose from "mongoose";
 cloudinary.config({
   cloud_name: config.cloud_name,
   api_key: config.api_key,
@@ -62,11 +60,11 @@ export const getGames = async (req: Request, res: Response) => {
         if (!user) {
           return res.status(404).json({ error: "User not found" });
         }
-
-        // Find games that are in the user's favourite list
-        res.status(200).json(user.favourite);
+        const favouriteGames = await Game.find({
+          _id: { $in: user.favourite },
+        }).lean();
+        return res.status(200).json(favouriteGames);
       } else {
-        // For other categories, add category filter to the query
         query["category"] = category;
       }
     }
@@ -108,14 +106,15 @@ export const getGames = async (req: Request, res: Response) => {
     ]);
 
     if (games.length > 0) {
-      res.status(200).json(games[0]);
+      return res.status(200).json(games[0]);
     } else {
-      res.status(200).json({ featured: [], otherGames: [] });
+      return res.status(200).json({ featured: [], otherGames: [] });
     }
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 };
+
 export const changeGames = async (req: Request, res: Response) => {
   try {
     const { _id, status, type } = req.body;
@@ -174,18 +173,16 @@ export const favourite = async (req: Request, res: Response) => {
         return res.status(400).send({ message: "Game already selected" });
       }
       // Add the game to the user's favourites
-      const updatedPlayer = await User.findOneAndUpdate(
+      await User.findOneAndUpdate(
         { username: player.username },
         { $push: { favourite: gameId } },
         { new: true }
       );
 
-      res
-        .status(200)
-        .send({ message: "Game added to favourites", player: updatedPlayer });
+      res.status(200).send({ message: "Game added to favourites" });
     } else if (type === "remove") {
       // Remove the game from the user's favourites
-      const updatedPlayer = await User.findOneAndUpdate(
+      await User.findOneAndUpdate(
         { username: player.username },
         { $pull: { favourite: gameId } },
         { new: true }
@@ -193,7 +190,6 @@ export const favourite = async (req: Request, res: Response) => {
 
       return res.status(200).send({
         message: "Game removed from favourites",
-        player: updatedPlayer,
       });
     }
   } catch (error) {
