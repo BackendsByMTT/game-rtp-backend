@@ -74,6 +74,7 @@ export const getGames = async (req: Request, res: Response) => {
     // Find games based on the constructed query
     const games = await Game.aggregate([
       { $match: query },
+      { $sort: { createdAt: -1 } },
       {
         $group: {
           _id: null,
