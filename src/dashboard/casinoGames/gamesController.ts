@@ -119,6 +119,7 @@ export const changeGames = async (req: Request, res: Response) => {
     const {
       _id,
       status,
+      updateType,
       type,
       gameName,
       gameThumbnailUrl,
@@ -127,12 +128,13 @@ export const changeGames = async (req: Request, res: Response) => {
       tagName,
     } = req.body;
 
-    if (type === "updateGame") {
+    if (updateType === "updateGame") {
       const updatedFields = {
         status,
         gameName,
         gameThumbnailUrl,
         gameHostLink,
+        type,
         category,
         tagName,
       };
@@ -147,7 +149,7 @@ export const changeGames = async (req: Request, res: Response) => {
       });
     }
 
-    if (type === "deleteGame") {
+    if (updateType === "deleteGame") {
       const deletedGame = await deleteGame(_id);
       if (!deletedGame) {
         return res.status(404).json({ message: "Game not found" });
