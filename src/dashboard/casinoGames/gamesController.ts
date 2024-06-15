@@ -114,9 +114,28 @@ export const getGames = async (req: Request, res: Response) => {
 
 export const changeGames = async (req: Request, res: Response) => {
   try {
-    const { _id, status, type } = req.body;
-    if (type === "updateStatus") {
-      const updatedGame = await updateGame(_id, status);
+    const {
+      _id,
+      status,
+      type,
+      gameName,
+      gameThumbnailUrl,
+      gameHostLink,
+      category,
+      tagName,
+    } = req.body;
+
+    if (type === "updateGame") {
+      const updatedFields = {
+        status,
+        gameName,
+        gameThumbnailUrl,
+        gameHostLink,
+        category,
+        tagName,
+      };
+
+      const updatedGame = await updateGame(_id, updatedFields);
       if (!updatedGame) {
         return res.status(404).json({ message: "Game not found" });
       }
@@ -141,13 +160,9 @@ export const changeGames = async (req: Request, res: Response) => {
   }
 };
 
-async function updateGame(_id: string, status: string) {
-  return await Game.findOneAndUpdate(
-    { _id },
-    { $set: { status } },
-    { new: true }
-  );
-}
+const updateGame = async (_id, updatedFields) => {
+  return await Game.findByIdAndUpdate(_id, updatedFields, { new: true });
+};
 
 async function deleteGame(_id: string) {
   return await Game.findOneAndDelete({ _id });
@@ -193,7 +208,6 @@ export const favourite = async (req: Request, res: Response) => {
     res.status(500).send({ message: "Internal Server Error", error });
   }
 };
-
 //
 const uploadImage = (image) => {
   return new Promise((resolve, reject) => {

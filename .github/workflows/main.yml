@@ -35,8 +35,7 @@ jobs:
         with:
           name: artifact
           path: ./dist/**/*.js
-
-
+          
       - name: Commit and Push Build Artifacts
         env:
           GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
