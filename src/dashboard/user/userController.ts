@@ -3,6 +3,7 @@ import User from "./userModel";
 import Transaction from "../transaction/transactionModel";
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
+import { config } from "../../config/config";
 
 const clientDesignation = {
   company: "master",
@@ -72,6 +73,7 @@ const companyCreation = async (req: Request, res: Response) => {
 //{Login user controller}
 const loginUser = async (req: Request, res: Response) => {
   const { username, password } = req.body;
+  const referer = req.headers.host;
 
   try {
     const user = await User.findOne(
@@ -92,7 +94,9 @@ const loginUser = async (req: Request, res: Response) => {
     if (user.activeStatus !== true) {
       return res.status(403).json({ error: "Account is inactive" });
     }
-
+    if (referer === config.crm && user.designation === "player") {
+      return res.status(401).json({ message: "Login Restricted For Player" });
+    }
     const istOffset = 5.5 * 60 * 60 * 1000;
     const istDate = new Date(Date.now() + istOffset);
 

@@ -1,4 +1,5 @@
 import { config as conf } from "dotenv";
+import { platform } from "os";
 conf();
 
 const _config = {
@@ -9,6 +10,8 @@ const _config = {
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.API_KEY,
   api_secret: process.env.API_SECRET,
+  crm: process.env.CRM,
+  platform: process.env.PLATFORM,
 };
 
 export const config = Object.freeze(_config);

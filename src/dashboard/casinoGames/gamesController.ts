@@ -48,9 +48,17 @@ export const sendGames = async (req: Request, res: Response) => {
 export const getGames = async (req: Request, res: Response) => {
   const { category } = req.query;
   const { username } = req.body;
+  const referer = req.headers.host;
+  console.log(referer);
 
   try {
-    let query: any = { status: true };
+    let query: any = {};
+    if (referer === config.crm) {
+      query = {};
+    } else if (referer === config.platform) {
+      query.status = true;
+    }
+    // let query: any = { status: true };
 
     if (category && category !== "all") {
       if (category === "fav") {
