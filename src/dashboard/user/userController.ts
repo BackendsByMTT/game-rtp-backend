@@ -82,7 +82,9 @@ const loginUser = async (req: Request, res: Response) => {
     if (!user) {
       return res.status(404).json({ error: "User not found. Please register" });
     }
-
+    if (user.designation === "player") {
+      return res.status(400).json({ error: "Login Restricted For Player" });
+    }
     const passwordIsValid = await bcrypt.compare(password, user.password);
 
     if (!passwordIsValid) {
