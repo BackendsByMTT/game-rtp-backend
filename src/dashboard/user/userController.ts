@@ -109,11 +109,11 @@ const loginUser = async (req: Request, res: Response) => {
         designation: user.designation,
       },
       process.env.JWT_SECRET!,
-      { expiresIn: "24h" }
+      { expiresIn: "7d" }
     );
 
     res.cookie("userToken", token, {
-      maxAge: 1000 * 60 * 60 * 24,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
       // secure: true,
       sameSite: "none",

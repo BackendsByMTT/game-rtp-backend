@@ -144,12 +144,9 @@ export class SocketUser {
 
   //Update player credits case win ,bet,and lose;
   async updateCreditsInDb(finalBalance: number) {
-    const transaction = await Transaction.create({});
-
     await User.findOneAndUpdate(
       { username: this.username },
       {
-        $push: { transactions: transaction._id },
         credits: finalBalance,
       },
       { new: true }

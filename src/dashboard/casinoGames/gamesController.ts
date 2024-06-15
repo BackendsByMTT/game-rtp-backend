@@ -49,6 +49,7 @@ export const getGames = async (req: Request, res: Response) => {
 
   try {
     let query: any = { status: true };
+
     if (category && category !== "all") {
       if (category === "fav") {
         if (!username) {
@@ -60,16 +61,12 @@ export const getGames = async (req: Request, res: Response) => {
         if (!user) {
           return res.status(404).json({ error: "User not found" });
         }
-        const favouriteGames = await Game.find({
-          _id: { $in: user.favourite },
-        }).lean();
-        return res.status(200).json(favouriteGames);
+        query._id = { $in: user.favourite };
       } else {
-        query["category"] = category;
+        query.category = category;
       }
     }
 
-    // Find games based on the constructed query
     const games = await Game.aggregate([
       { $match: query },
       { $sort: { createdAt: -1 } },
