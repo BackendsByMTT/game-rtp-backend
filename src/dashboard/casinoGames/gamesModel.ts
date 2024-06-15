@@ -7,8 +7,8 @@ const GameSchema = new mongoose.Schema<Games>(
     gameThumbnailUrl: {
       type: String,
       required: true,
-      default:
-        "https://res.cloudinary.com/dhl5hifpz/image/upload/v1718447154/casinoGames/jiddczkc9oxak77h88kg.png",
+      default:"https://res.cloudinary.com/dhl5hifpz/image/upload/v1718447154/casinoGames/jiddczkc9oxak77h88kg.png",
+
     },
     gameHostLink: { type: String, required: true },
     type: { type: String, required: true },

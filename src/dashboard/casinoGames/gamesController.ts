@@ -31,8 +31,7 @@ export const sendGames = async (req: Request, res: Response) => {
     const game = new Game({
       gameName,
       gameThumbnailUrl:
-        gameThumbnailUrl ||
-        "https://res.cloudinary.com/dhl5hifpz/image/upload/v1718447154/casinoGames/jiddczkc9oxak77h88kg.png",
+        gameThumbnailUrl || "https://res.cloudinary.com/dhl5hifpz/image/upload/v1718447154/casinoGames/jiddczkc9oxak77h88kg.png",
       gameHostLink,
       type,
       category,
