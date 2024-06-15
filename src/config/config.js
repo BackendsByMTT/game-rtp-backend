@@ -11,5 +11,7 @@ const _config = {
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET,
+    crm: process.env.CRM,
+    platform: process.env.PLATFORM,
 };
 exports.config = Object.freeze(_config);
