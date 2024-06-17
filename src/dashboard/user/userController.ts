@@ -73,8 +73,8 @@ const companyCreation = async (req: Request, res: Response) => {
 //{Login user controller}
 const loginUser = async (req: Request, res: Response) => {
   const { username, password } = req.body;
-  const referer = req.headers.host;
-
+  const referer = req.headers.referer || req.headers.origin;
+  console.log(referer);
   try {
     const user = await User.findOne(
       { username },
