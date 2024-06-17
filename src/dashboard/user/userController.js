@@ -68,8 +68,9 @@ exports.companyCreation = companyCreation;
 //{Login user controller}
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
-    const referer = req.headers.referer || req.headers.origin || req;
-    console.log(referer, "referer");
+    console.log(`Received request from URL: ${req.protocol}://${req.get('host')}${req.originalUrl}`);
+    const referer = req.headers.referer || req.headers.origin;
+    console.log(referer);
     try {
         const user = yield userModel_1.default.findOne({ username }, "username password activeStatus designation credits lastLogin loginTimes");
         if (!user) {
