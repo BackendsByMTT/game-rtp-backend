@@ -54,9 +54,9 @@ export const getGames = async (req: Request, res: Response) => {
   try {
     let query: any = {};
     if (referer === config.platform) {
-      query = {};
-    } else {
       query.status = true;
+    } else {
+      query = {};
     }
     // let query: any = { status: true };
 
