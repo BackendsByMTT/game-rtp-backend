@@ -48,14 +48,14 @@ export const sendGames = async (req: Request, res: Response) => {
 export const getGames = async (req: Request, res: Response) => {
   const { category } = req.query;
   const { username } = req.body;
-  const referer = req.headers.host;
-  console.log(referer);
+  const referer = req.get("Referer");
+  console.log(`Request made from URL: ${referer}`);
 
   try {
     let query: any = {};
-    if (referer === config.crm) {
+    if (referer === config.platform) {
       query = {};
-    } else if (referer === config.platform) {
+    } else {
       query.status = true;
     }
     // let query: any = { status: true };
