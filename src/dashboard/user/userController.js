@@ -16,7 +16,6 @@ exports.updateClientStatus = exports.updateClientPassword = exports.deleteClient
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const userModel_1 = __importDefault(require("./userModel"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const config_1 = require("../../config/config");
 const clientDesignation = {
     company: "master",
     master: "distributer",
@@ -68,15 +67,10 @@ exports.companyCreation = companyCreation;
 //{Login user controller}
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
-    const referer = req.get('Referer');
-    console.log(`Request made from URL: ${referer}`);
     try {
         const user = yield userModel_1.default.findOne({ username }, "username password activeStatus designation credits lastLogin loginTimes");
         if (!user) {
             return res.status(404).json({ error: "User not found. Please register" });
-        }
-        if (user.designation === "player") {
-            return res.status(400).json({ error: "Login Restricted For Player" });
         }
         const passwordIsValid = yield bcrypt_1.default.compare(password, user.password);
         if (!passwordIsValid) {
@@ -84,9 +78,6 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         if (user.activeStatus !== true) {
             return res.status(403).json({ error: "Account is inactive" });
-        }
-        if (referer === config_1.config.crm && user.designation === "player") {
-            return res.status(401).json({ message: "Login Restricted For Player" });
         }
         const istOffset = 5.5 * 60 * 60 * 1000;
         const istDate = new Date(Date.now() + istOffset);

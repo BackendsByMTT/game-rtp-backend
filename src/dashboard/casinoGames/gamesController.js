@@ -34,7 +34,8 @@ const sendGames = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const game = new gamesModel_1.default({
             gameName,
-            gameThumbnailUrl: gameThumbnailUrl || "https://res.cloudinary.com/dhl5hifpz/image/upload/v1718447154/casinoGames/jiddczkc9oxak77h88kg.png",
+            gameThumbnailUrl: gameThumbnailUrl ||
+                "https://res.cloudinary.com/dhl5hifpz/image/upload/v1718447154/casinoGames/jiddczkc9oxak77h88kg.png",
             gameHostLink,
             type,
             category,
@@ -51,17 +52,8 @@ exports.sendGames = sendGames;
 const getGames = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { category } = req.query;
     const { username } = req.body;
-    const referer = req.headers.host;
-    console.log(referer);
     try {
-        let query = {};
-        if (referer === config_1.config.crm) {
-            query = {};
-        }
-        else if (referer === config_1.config.platform) {
-            query.status = true;
-        }
-        // let query: any = { status: true };
+        let query = { status: true };
         if (category && category !== "all") {
             if (category === "fav") {
                 if (!username) {
