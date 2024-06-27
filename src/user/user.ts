@@ -64,9 +64,11 @@ export class SocketUser {
     const game = await Game.findOne({ tagName:messageData.Data.GameID });
     console.log(game);
     
-    if (!game.payout.length) {
-      this.sendError("404","Game with the specified tagName not found.");
-      this.socket.disconnect();
+    if(!game || !game.payout || !game.payout.length) {
+      // this.sendError("404","Game with the specified tagName not found.");
+      // this.socket.disconnect();
+      console.log('NO GAME FOUND WITH THIS GAME ID SWIFTING PAYOUTS TO SL-VIK')
+      gameSettings.initiate(gameData[0],this.socket.id)
       return;
     }
     // Retrieve the payout JSON data

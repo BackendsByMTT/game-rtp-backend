@@ -87,7 +87,7 @@ export const gameSettings: GameSettings = {
     
     gameSettings.currentGamedata=GameData;
 
-
+// console.log(gameSettings.currentGamedata)
     initSymbols();
     UiInitData.paylines = convertSymbols(gameSettings.currentGamedata.Symbols);
     gameSettings.startGame = true;
